@@ -21,3 +21,37 @@ Base entity of user management.
 - config: User-specific configuration settings.
     - type: Map<String, Object>
     - required: false
+- isAdmin: Flag indicating if the user has administrative privileges.
+    - type: boolean
+    - required: true
+    - default: false
+
+## Operations
+- Commands:
+  - CreateUser
+    - Fields: id as email, name, password
+    - Calculate:
+      - assign default config 
+  - UpdateUserDetails
+    - Fields: name
+  - ChangeUserPassword
+    - Fields: currentPassword, newPassword
+  - UpdateUserConfig
+    - Fields: config
+  - LoginUser
+    - Fields: id as email, password
+  - LogoutUser
+    - Fields: id as email
+  - DeleteUser
+    - Fields: -
+
+- Queries:
+  - GetCurrent
+    - Fields: id as email, name, config
+  - GetById
+    - Fields: id as email, name
+  - GetAllUsers
+    - Fields: id as email, name
+    - Sorting: email (DEFAULT), name
+    - Search term on: email, name
+    - Filtering: -
