@@ -7,19 +7,23 @@ import java.time.Instant
 data class User(
     override val id: String,
     var name: String,
+    var passwordHash: String,
     var config: Map<String, Any?>,
+    var isAdmin: Boolean = false,
     val createdAt: Instant = Instant.now(),
     var deleted: Boolean = false,
     override var version: Int = 1
 ) : Aggregate<String> {
 
     companion object {
-        fun create(command: CreateUserCommand): Result<User> {
+        fun create(command: CreateUserCommand, passwordHash: String): Result<User> {
             return runCatching {
                 User(
                     id = command.email,
                     name = command.name,
-                    config = mapOf()
+                    passwordHash = passwordHash,
+                    config = mapOf(),
+                    isAdmin = false,
                 )
             }
         }

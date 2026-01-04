@@ -69,14 +69,19 @@ data class CreateUserV1Request(
         example = "P@ssw0rd!",
         required = true,
         minLength = 8,
-        maxLength = 50,
+        maxLength = 60,
         format = "password",
         type = SchemaType.STRING,
     )
     @get:NotBlank
     @get:Length(
         min = 8,
-        max = 50,
+        max = 60,
+    )
+    @get:Pattern(
+        // Require at least one uppercase, one lowercase, one digit and one special character
+        regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\w\\s]).+$",
+        message = "password must contain uppercase, lowercase, digit and special character",
     )
     @get:Pattern(
         regexp = "^[^\\r\\n\\t]*$",

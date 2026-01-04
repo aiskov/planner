@@ -1,7 +1,5 @@
 # Approach
 
-Application exposes REST API.
-
 ## Multithreading
 Application is designed to be thread-safe, allowing concurrent access to resources without data corruption 
 or inconsistency.

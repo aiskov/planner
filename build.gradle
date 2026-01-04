@@ -21,6 +21,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-arc'
     // Swagger/OpenAPI annotations for richer model docs
     implementation 'io.swagger.core.v3:swagger-annotations:2.2.12'
+    implementation 'org.mindrot:jbcrypt:0.4'
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
 }
