@@ -1,5 +1,7 @@
 package com.aiskov.domain.common
 
-interface CommandRequest<T : Any> {
+import com.aiskov.utils.handlers.Command
+
+interface CommandRequest<T : Command> {
     fun toCommand(): T
 }

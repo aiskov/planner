@@ -2,26 +2,34 @@ package com.aiskov.domain.user
 
 import com.aiskov.domain.user.command.CreateUserCommand
 import com.aiskov.utils.handlers.Aggregate
+import org.bson.codecs.pojo.annotations.BsonId
 import java.time.Instant
 
 data class User(
+    @field:BsonId
     override val id: String,
     var name: String,
-    var passwordHash: String,
+    var password: String,
     var config: Map<String, Any?>,
     var isAdmin: Boolean = false,
-    val createdAt: Instant = Instant.now(),
-    var deleted: Boolean = false,
+    override val createdAt: Instant = Instant.now(),
+    override var deleted: Boolean = false,
     override var version: Int = 1
 ) : Aggregate<String> {
 
     companion object {
-        fun create(command: CreateUserCommand, passwordHash: String): Result<User> {
+        fun create(
+            command: CreateUserCommand,
+            policies: UserPolicies,
+        ): Result<User> {
+            policies.ensureUniqueEmail(command.email)
+                .getOrElse { return Result.failure(it) }
+
             return runCatching {
                 User(
                     id = command.email,
                     name = command.name,
-                    passwordHash = passwordHash,
+                    password = policies.storeHashed(command.password),
                     config = mapOf(),
                     isAdmin = false,
                 )

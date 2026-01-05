@@ -1,49 +1,42 @@
 package com.aiskov.config
 
-import com.aiskov.domain.user.PasswordHasher
+import com.aiskov.domain.common.Policies
 import com.aiskov.domain.user.User
+import com.aiskov.domain.user.UserPolicies
 import com.aiskov.domain.user.command.CreateUserCommand
-import com.aiskov.domain.user.port.UserCommandRepository
+import com.aiskov.utils.handlers.Aggregate
+import com.aiskov.utils.handlers.Command
 import com.aiskov.utils.handlers.CommandHandler
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import kotlin.reflect.KClass
 
 @ApplicationScoped
 class CommandHandlersConfig {
     @Inject
-    private lateinit var userRepo: UserCommandRepository
+    private lateinit var userPolicies: UserPolicies
 
-    @Inject
-    private lateinit var passwordHasher: PasswordHasher
+    private val handlers: Map<String, CommandHandler<*, *, *>> = listOf<CommandHandler<*, *, *>>(
+        CommandHandler.CreateCommandHandler(
+            commandType = CreateUserCommand::class,
+            aggregateType = User::class,
+            operation = { cmd: CreateUserCommand, policies: UserPolicies ->
+                User.create(cmd, policies)
+            }
+        )
+    ).associateBy { it.commandType.simpleName!! }
 
-    val handlers: Map<String, CommandHandler<*>>
-        get() = listOf(
-            CommandHandler.CreateCommandHandler(
-                type = CreateUserCommand::class,
-                operation = { cmd ->
-                    // check duplicate
-                    val existsResult = userRepo.existsById(cmd.email)
-                    if (existsResult.isFailure) {
-                        return@CreateCommandHandler Result.failure(existsResult.exceptionOrNull()!!)
-                    }
-                    val exists = existsResult.getOrNull() ?: false
-                    if (exists) {
-                        return@CreateCommandHandler Result.failure(IllegalArgumentException("User already exists: ${cmd.email}"))
-                    }
+    @Suppress("UNCHECKED_CAST")
+    fun <A: Aggregate<*>> policiesOf(aggregateType: KClass<A>): Policies<A> {
+        return when (aggregateType.simpleName) {
+            User::class.simpleName!! -> userPolicies as Policies<A>
+            else -> error("Unknown aggregate type for policies ${aggregateType.simpleName}")
+        }
+    }
 
-                    val hash = passwordHasher.hash(cmd.password)
-                    val userResult = User.create(cmd, hash)
-                    if (userResult.isFailure) {
-                        return@CreateCommandHandler Result.failure(userResult.exceptionOrNull()!!)
-                    }
-                    val user = userResult.getOrNull()!!
-
-                    val savedResult = userRepo.save(user)
-                    if (savedResult.isFailure) {
-                        return@CreateCommandHandler Result.failure(savedResult.exceptionOrNull()!!)
-                    }
-                    Result.success(savedResult.getOrNull()!!)
-                }
-            )
-        ).associateBy { it.type.qualifiedName!! }
+    @Suppress("UNCHECKED_CAST")
+    fun <C: Command> handlerOf(commandType: KClass<C>): CommandHandler<C, *, *> {
+        return handlers[commandType.simpleName] as? CommandHandler<C, *, *>
+            ?: error("Unknown command type for handler ${commandType.simpleName}")
+    }
 }

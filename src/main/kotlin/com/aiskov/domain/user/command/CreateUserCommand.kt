@@ -1,6 +1,7 @@
 package com.aiskov.domain.user.command
 
 import com.aiskov.domain.common.CommandRequest
+import com.aiskov.utils.handlers.Command.CreateCommand
 import com.aiskov.utils.handlers.CommandGateway
 import com.aiskov.utils.toResponse
 import jakarta.enterprise.context.ApplicationScoped
@@ -25,7 +26,7 @@ data class CreateUserCommand(
     val email: String,
     val name: String,
     val password: String,
-)
+) : CreateCommand
 
 @Schema(
     description = "Request payload to create a new user (API v1).",
