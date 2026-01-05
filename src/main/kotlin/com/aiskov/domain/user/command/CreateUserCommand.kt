@@ -1,5 +1,6 @@
 package com.aiskov.domain.user.command
 
+import com.aiskov.utils.json.Secret
 import com.aiskov.domain.common.CommandRequest
 import com.aiskov.utils.handlers.Command.CreateCommand
 import com.aiskov.utils.handlers.CommandGateway
@@ -88,6 +89,7 @@ data class CreateUserV1Request(
         regexp = "^[^\\r\\n\\t]*$",
         message = "must not contain newline or tab characters",
     )
+    @field:Secret
     val password: String?,
 ) : CommandRequest<CreateUserCommand> {
     override fun toCommand(): CreateUserCommand {
