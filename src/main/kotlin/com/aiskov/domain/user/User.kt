@@ -1,12 +1,14 @@
 package com.aiskov.domain.user
 
 import com.aiskov.domain.user.command.CreateUserCommand
+import com.aiskov.utils.ApiAlias
 import com.aiskov.utils.handlers.Aggregate
 import org.bson.codecs.pojo.annotations.BsonId
 import java.time.Instant
 
 data class User(
     @field:BsonId
+    @property:ApiAlias("email")
     override val id: String,
     var name: String,
     var password: String,

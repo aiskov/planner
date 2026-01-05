@@ -11,7 +11,7 @@ class NonUniqueValueException(
     val fieldValue: Any,
     cause: Throwable? = null
 ) : DomainError(
-    message = "Non unique value ${aggregateType.simpleName}.${field.name} - $fieldValue",
+    message = "Non unique value ${aggregateType.alias}.${field.alias} - $fieldValue",
     cause = cause
 ) {
     override fun payload(): Map<String, Any?> {
