@@ -1,4 +1,4 @@
-package com.aiskov.domain.common.error
+package com.aiskov.domain.common.errors
 
 data class ErrorResponse(
     val code: ErrorCodes,

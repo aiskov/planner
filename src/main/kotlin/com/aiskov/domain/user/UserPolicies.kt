@@ -1,6 +1,7 @@
 package com.aiskov.domain.user
 
 import com.aiskov.domain.common.Policies
+import com.aiskov.domain.common.errors.NonUniqueValueException
 import com.aiskov.utils.then
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
@@ -21,7 +22,7 @@ class UserPolicies : Policies<User> {
         return userRepo.existsById(email)
             .then { exists ->
                 if (exists) {
-                    Result.failure(IllegalArgumentException("User with email $email already exists"))
+                    Result.failure(NonUniqueValueException(User::class, User::id, email))
                 } else {
                     Result.success(Unit)
                 }

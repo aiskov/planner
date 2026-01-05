@@ -1,8 +1,10 @@
 package com.aiskov.utils
 
-import com.aiskov.domain.common.error.ErrorCodes.RULE_VIOLATION
-import com.aiskov.domain.common.error.ErrorCodes.VALIDATION_ERROR
-import com.aiskov.domain.common.error.ErrorResponse
+import com.aiskov.domain.common.errors.DomainError
+import com.aiskov.domain.common.errors.ErrorCodes.RULE_VIOLATION
+import com.aiskov.domain.common.errors.ErrorCodes.VALIDATION_ERROR
+import com.aiskov.domain.common.errors.ErrorResponse
+import com.aiskov.domain.common.errors.ErrorCodes
 import jakarta.validation.ConstraintViolationException
 import jakarta.ws.rs.core.Response
 import org.slf4j.LoggerFactory
@@ -29,6 +31,21 @@ fun Result<*>.toResponse(): Response {
                 payload = report,
             )
         }
+        is DomainError -> {
+            log.atLevel(exception.level).let {
+                val message = "Domain error: ${exception.message ?: "Unknown"}"
+                if (exception.logTrace) {
+                    it.log(message, exception)
+                } else {
+                    it.log(message)
+                }
+            }
+            ErrorResponse(
+                code = exception.code,
+                message = exception.message ?: "Domain error",
+                payload = exception.payload(),
+            )
+        }
         is IllegalArgumentException -> {
             log.warn("Validation error: ${exception.message ?: "Unknown"}")
             ErrorResponse(
@@ -39,7 +56,7 @@ fun Result<*>.toResponse(): Response {
         else -> {
             log.error("Internal server error: ${exception?.message ?: "Unknown"}", exception)
             ErrorResponse(
-                code = com.aiskov.domain.common.error.ErrorCodes.UNKNOWN_ERROR,
+                code = ErrorCodes.UNKNOWN_ERROR,
                 message = exception?.message ?: "Internal server error"
             )
         }

@@ -1,4 +1,4 @@
-package com.aiskov.domain.common.error
+package com.aiskov.domain.common.errors
 
 import jakarta.ws.rs.core.Response
 

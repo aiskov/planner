@@ -97,6 +97,10 @@ data class CreateUserV1Request(
             password = password!!,
         )
     }
+
+    override fun toString(): String {
+        return toCommandString(CreateUserCommand::class)
+    }
 }
 
 @ApplicationScoped
