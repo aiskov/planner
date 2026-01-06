@@ -15,6 +15,7 @@ import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import jakarta.inject.Inject
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.jupiter.api.BeforeEach
@@ -28,7 +29,9 @@ class CreateUserV1CommandTest {
 
     @BeforeEach
     fun cleanup() {
-        dbProvider.collection(User::class).deleteMany(any())
+        runBlocking {
+            dbProvider.collection(User::class).deleteMany(any())
+        }
     }
 
     @Test
@@ -44,9 +47,11 @@ class CreateUserV1CommandTest {
         response.statusCode(200)
             .commandResponse(payload.email, 1)
 
-        val doc = dbProvider.collection(User::class).findById(id)
-        assert(doc != null)
-        assert(doc!!.id == payload.email)
+        runBlocking {
+            val doc = dbProvider.collection(User::class).findById(id)
+            assert(doc != null)
+            assert(doc!!.id == payload.email)
+        }
     }
 
     @Test

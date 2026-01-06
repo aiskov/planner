@@ -123,7 +123,7 @@ class UserCommandV1Resource {
         description = "Creates a new user in the system with the provided details.",
     )
     @Path("/api/command/v1/users")
-    fun create(cmd: CreateUserV1Request): Response {
+    suspend fun create(cmd: CreateUserV1Request): Response {
         return gateway.process(cmd).toResponse()
     }
 }

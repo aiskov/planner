@@ -18,7 +18,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-kotlin'
     implementation 'io.quarkus:quarkus-arc'
 
-    implementation "org.mongodb:mongodb-driver-kotlin-sync:5.6.2"
+    implementation 'org.mongodb:mongodb-driver-kotlin-coroutine:5.6.2'
     implementation 'org.mongodb:mongodb-driver-kotlin-extensions:5.6.2'
 
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'

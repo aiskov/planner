@@ -18,7 +18,7 @@ class UserPolicies : Policies<User> {
         return passwordHasher.hash(password)
     }
 
-    fun ensureUniqueEmail(email: String): Result<Unit> {
+    suspend fun ensureUniqueEmail(email: String): Result<Unit> {
         return userRepo.existsById(email)
             .then { exists ->
                 if (exists) {

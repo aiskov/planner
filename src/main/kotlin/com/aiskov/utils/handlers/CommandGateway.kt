@@ -32,7 +32,7 @@ class CommandGateway {
     private lateinit var validationService: ValidationService
 
     @Suppress("UNCHECKED_CAST")
-    fun process(
+    suspend fun process(
         request: CommandRequest<*>,
         targetId: Any = Unit,
     ): Result<CommandResponse<*>> {

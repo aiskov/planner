@@ -3,9 +3,9 @@ package com.aiskov.config
 import com.aiskov.domain.user.User
 import com.aiskov.utils.handlers.Aggregate
 import com.mongodb.MongoClientSettings
-import com.mongodb.kotlin.client.MongoClient
-import com.mongodb.kotlin.client.MongoCollection
-import com.mongodb.kotlin.client.MongoDatabase
+import com.mongodb.kotlin.client.coroutine.MongoClient
+import com.mongodb.kotlin.client.coroutine.MongoCollection
+import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import jakarta.annotation.PostConstruct
 import jakarta.annotation.PreDestroy
 import jakarta.enterprise.context.ApplicationScoped

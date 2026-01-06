@@ -7,7 +7,7 @@ import com.aiskov.utils.db.findById
 import com.aiskov.utils.handlers.Aggregate
 import com.mongodb.client.model.InsertOneOptions
 import com.mongodb.client.model.ReplaceOptions
-import com.mongodb.kotlin.client.MongoCollection
+import com.mongodb.kotlin.client.coroutine.MongoCollection
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import kotlin.reflect.KClass
@@ -18,7 +18,7 @@ class CommandRepository {
     @Inject
     private lateinit var db: DbCollectionProvider
 
-    fun <T: Aggregate<*>> create(aggregate: T): Result<T> {
+    suspend fun <T: Aggregate<*>> create(aggregate: T): Result<T> {
         return runCatching {
             val collection = db.collection(aggregate::class) as MongoCollection<T>
             collection.insertOne(aggregate, InsertOneOptions())
@@ -28,7 +28,7 @@ class CommandRepository {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T: Aggregate<*>> update(aggregate: T): Result<T> {
+    suspend fun <T: Aggregate<*>> update(aggregate: T): Result<T> {
         return runCatching {
             val selector = doc(
                 ID to aggregate.id,
@@ -45,7 +45,7 @@ class CommandRepository {
         }
     }
 
-    fun <I : Any, T: Aggregate<I>> findById(type: KClass<T>, id: I): Result<T?> {
+    suspend fun <I : Any, T: Aggregate<I>> findById(type: KClass<T>, id: I): Result<T?> {
         return runCatching {
             db.collection(type).findById(id)
         }

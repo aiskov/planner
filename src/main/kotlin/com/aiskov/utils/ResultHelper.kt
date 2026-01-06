@@ -2,14 +2,14 @@
 
 package com.aiskov.utils
 
-fun <I, O> Result<I>.then(step: (I) -> Result<O>): Result<O> {
+suspend fun <I, O> Result<I>.then(step: suspend (I) -> Result<O>): Result<O> {
     if (isFailure) return this as Result<O>
     return runCatching {
         return step(getOrNull() as I)
     }
 }
 
-fun <T> Result<T>.check(step: (T) -> Result<Unit>): Result<T> {
+suspend fun <T> Result<T>.check(step: suspend (T) -> Result<Unit>): Result<T> {
     if (isFailure) return this
 
     return runCatching {

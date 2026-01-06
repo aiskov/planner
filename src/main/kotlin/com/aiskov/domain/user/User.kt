@@ -23,7 +23,7 @@ data class User(
 ) : Aggregate<String> {
 
     companion object {
-        fun create(
+        suspend fun create(
             command: CreateUserV1Command,
             policies: UserPolicies,
         ): Result<User> {
