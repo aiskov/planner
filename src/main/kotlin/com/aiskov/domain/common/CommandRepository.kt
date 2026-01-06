@@ -4,6 +4,7 @@ import com.aiskov.config.DbCollectionProvider
 import com.aiskov.utils.ID
 import com.aiskov.utils.byId
 import com.aiskov.utils.doc
+import com.aiskov.utils.findById
 import com.aiskov.utils.handlers.Aggregate
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.InsertOneOptions
@@ -47,7 +48,7 @@ class CommandRepository {
 
     fun <I : Any, T: Aggregate<I>> findById(type: KClass<T>, id: I): Result<T?> {
         return runCatching {
-            db.collection(type).find(byId(id)).first()
+            db.collection(type).findById(id)
         }
     }
 }

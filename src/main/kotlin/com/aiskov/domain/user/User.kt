@@ -12,7 +12,7 @@ data class User(
     override val id: String,
     var name: String,
     var password: String,
-    var config: Map<String, Any?>,
+    var config: Map<String, Any?> = mapOf(),
     var isAdmin: Boolean = false,
     override val createdAt: Instant = Instant.now(),
     override var deleted: Boolean = false,
