@@ -16,6 +16,12 @@ Let's get task 1 from todo.md
 
 Please find all kotlin files that refer to the task and verify that implementation is correct and complete.
 
+## Verify implementation of documentation task
+Let's get task 1 from todo.md
+
+Please analyze documentation files in docs/ and verify that currently it contains required information. If not 
+describe in the short answer what is missing.
+
 ## Check that task is still relevant
 Let's get task 1 from todo.md
 
