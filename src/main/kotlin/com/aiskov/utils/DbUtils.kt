@@ -1,6 +1,6 @@
 package com.aiskov.utils
 
-import com.mongodb.client.MongoCollection
+import com.mongodb.kotlin.client.MongoCollection
 import org.bson.Document
 
 const val ID = "_id"
@@ -17,6 +17,6 @@ fun any(): Document {
     return Document()
 }
 
-fun <T> MongoCollection<T>.findById(id: Any): T? {
-    return this.find(byId(id)).first()
+fun <T : Any> MongoCollection<T>.findById(id: Any): T? {
+    return this.find(byId(id)).firstOrNull()
 }

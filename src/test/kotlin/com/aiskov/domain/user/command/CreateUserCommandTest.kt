@@ -4,14 +4,13 @@ import com.aiskov.config.DbCollectionProvider
 import com.aiskov.domain.user.User
 import com.aiskov.utils.UserData
 import com.aiskov.utils.any
-import com.aiskov.utils.byId
 import com.aiskov.utils.findById
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import jakarta.inject.Inject
-import org.bson.Document
-import org.hamcrest.CoreMatchers.*
+import org.hamcrest.CoreMatchers.containsString
+import org.hamcrest.CoreMatchers.equalTo
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -19,13 +18,11 @@ import org.junit.jupiter.api.Test
 class CreateUserCommandTest {
 
     @Inject
-    lateinit var db: DbCollectionProvider
-
-    private val usersColl = "User"
+    private lateinit var dbProvider: DbCollectionProvider
 
     @BeforeEach
     fun cleanup() {
-        db.collection(User::class).deleteMany(any())
+        dbProvider.collection(User::class).deleteMany(any())
     }
 
     @Test
@@ -48,7 +45,7 @@ class CreateUserCommandTest {
             .body("id", equalTo(payload["email"]))
             .body("version", equalTo(1))
 
-        val doc = db.collection(User::class).findById(id)
+        val doc = dbProvider.collection(User::class).findById(id)
         assert(doc != null)
         assert(doc!!.id == payload["email"])
     }
@@ -59,7 +56,7 @@ class CreateUserCommandTest {
         val email = UserData.email()
 
         // insert existing user directly
-        val users = db.collection(User::class)
+        val users = dbProvider.collection(User::class)
         users.insertOne(
             User(
                 id = email,

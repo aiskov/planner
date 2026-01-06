@@ -2,13 +2,12 @@ package com.aiskov.domain.common
 
 import com.aiskov.config.DbCollectionProvider
 import com.aiskov.utils.ID
-import com.aiskov.utils.byId
 import com.aiskov.utils.doc
 import com.aiskov.utils.findById
 import com.aiskov.utils.handlers.Aggregate
-import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.InsertOneOptions
 import com.mongodb.client.model.ReplaceOptions
+import com.mongodb.kotlin.client.MongoCollection
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import kotlin.reflect.KClass
