@@ -53,7 +53,7 @@ Application should provide next concepts:
 ## Non-Functional Requirements
 
 ### Technologies
-- Expose GraphQL API
+- Expose Rest API
 - Store date in MongoDB
 - Backend written on Kotlin
 - Backend framework: Quarkus
@@ -82,25 +82,3 @@ Application should provide next concepts:
 
 ### Code
 [approach.md](./approach.md)
-
-## Implementation checklist
-
-A concise checklist of high-impact items to implement. Use this as a sprint-ready task list for developers.
-
-- [ ] API: Publish GraphQL schema files under `docs/api-schema/` for every mutation/query implemented.
-- [ ] REST: Add OpenAPI annotations to admin/health endpoints; explicitly set response schemas using @APIResponse/Content/Schema.
-- [ ] DTOs: Add swagger/OpenAPI field descriptions and examples to every request/response DTO (e.g., `CreateUserV1Request`).
-- [ ] Validation: Enforce global rules for single-line fields (no `\n`, `\r`, `\t`) using regex ^[^\n\r\t]+$ (or optional variant). Trim and normalize inputs first.
-- [ ] CommandGateway: Validate & sanitize commands synchronously; require correlationId/causationId/requestId metadata; support optional idempotencyKey for mutating commands.
-- [ ] Error model: Return structured errors with machine-readable codes (VALIDATION_ERROR, NOT_FOUND, CONFLICT, etc.) and include correlationId.
-- [ ] Tests: Add integration tests (Testcontainers) for critical flows and validation, including attempts to submit newline/tab characters to single-line fields.
-- [ ] Idempotency: Persist recent idempotency keys with TTL for create/modify commands to tolerate retries safely.
-- [ ] Observability: Emit correlationId in logs, add request/command metrics and tracing (OpenTelemetry), and expose Prometheus metrics.
-- [ ] Security: Implement email verification for new accounts, configurable password policy, rate limiting on auth endpoints, and audit logs for critical actions.
-- [ ] Persistence: Ensure UTC date storage, document soft-delete behavior and PII anonymization procedures; include migration/versioning approach for DB.
-- [ ] Attachments: Validate type/size, store in S3-compatible storage, and serve via signed URLs; add scanning pipeline for production.
-- [ ] Acceptance tests & CI: Add CI jobs that run integration tests and fail the build on regressions; enforce minimum coverage for critical modules.
-
-Notes:
-- For DTOs, include validation annotations (e.g., javax.validation / Hibernate Validator) that match the documented regex and length constraints so OpenAPI and runtime validation stay in sync.
-- Prefer small, focused PRs that implement a subset of items above with tests and OpenAPI updates.
