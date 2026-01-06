@@ -17,15 +17,14 @@ All elements are located in parent package com.aiskov.time.tracker.
 - .modules - Application modules.
   - .common - Common classes and utilities used across modules.
   - .<module-name> - Each application module
-    - .api - API endpoints (Resources).
-      - .commands - Command DTOs
-      - .responses - Response DTOs
-      - .*Resource.kt - Resource classes defining API endpoints
+    - .commands - Command files. 
+    - .query - Query files.
     - .values - Value objects and enums.
     - .aggregates - Aggregate roots and domain entities.
     - .*Service.kt - Service classes containing business logic.
-    - .*CommandRepository.kt - Command repository interfaces for data access.
     - .*QueryRepository.kt - Query repository interfaces for data retrieval.
+    - .*Policies.kt - Domain policies and rules. Allows to aggregate apply verifications and modifications that requires
+      access to Repositories and Services. Also could be used to extract complex or repeatable logic from aggregates.
 
 ## Persistency
 - Each aggregate should be saved as separate document in the database.
@@ -35,9 +34,17 @@ All elements are located in parent package com.aiskov.time.tracker.
 - Query repository should return use mongodb aggregation framework to get all data required for the case.
 
 ## Optimistic Locking
-Each aggregate should have version field that is incremented on each update. When updating aggregate.
-Each command that modify aggregate should provide expected version. If expected version doesn't match current version,
-update should fail with ConcurrentChangeException.
+Aggregate contains version field of type Int. When aggregate is created, version is set to 1. All update operations
+should provide expected version. If expected version doesn't match current version, update should fail with 
+ConcurrentChangeException.
+
+Expected version is received from client in Request/Command DTOs. That version should be provided to UI in each 
+Response DTOs.
+
+Command processing should apply two verifications:
+- Check that expected version matches current aggregate version in CommandGateway after fetch aggregate from database.
+- Add version to the update query condition in CommandRepository. As it is second layer it could fail with generic 
+  database exception.
 
 ## Concurrency model (recommended)
 - Primary model: Kotlin coroutines (suspend functions, structured concurrency and Kotlin Flow) are the preferred 
@@ -62,3 +69,26 @@ Thread-safety rules — coroutines vs reactive code
 Rules summary
 - Single preferred model per layer: coroutines for service/business logic; reactive for low-level non-blocking plumbing only when required.
 - Always document conversion points and ensure tests exercise the boundary behavior.
+
+## Command Structure
+- Command is a validated DTO that represents an action to be performed on the system and contains necessary data.
+- In order to have in command non-nullable fields (if they are logically required) used Request DTOs that should have
+  same fields and validation rules. Request DTO fields should be nullable for correct deserialization.
+- Request should implement toCommand() method that converts it to Command. Expected that method are called after
+  validation. By this reason it could simply force conversion to non-nullable fields.
+- Enums in Request should be presented as strings. But toCommand() method should convert them to enum values.
+- Endpoint created by command resource method. Command resource created per command.
+- Command resource only transfer request DTO to CommandGateway and return response DTO.
+- Command should be registered in CommandHandlerConfig, that describes which aggregate method should be called to
+  process the command.
+- Each command file should contain single command class, resource class and request class.
+- Request DTO should be documented using appropriate swagger annotations.
+- Commands should be versioned using name and path used in resource.
+
+## Query Structure
+- Query is DTO that contains parameters for data retrieval.
+- Response DTO is used to return data to client.
+- Query and Response DTOs should be documented using appropriate swagger annotations.
+- Query file should contains single query class, query resource class and response class.
+- Query resource should call module service that is responsible for query processing.
+- Service should call QueryRepository to get data from database.

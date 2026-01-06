@@ -40,7 +40,7 @@ Options:
 - Document interoperability rules when both models are used
 
 ### 2 - Resolve 'Multithreading' vs 'Reactive' ambiguity in `docs/approach.md`
-Status: Missing
+Status: Done
 Reference: docs/approach.md#multithreading
 Description: State concrete thread-safety rules: immutability, confinement, synchronization primitives, and how they apply to coroutines and reactive streams. Clarify expectations for blocking calls in reactive paths.
 Options:
@@ -48,7 +48,7 @@ Options:
 - Add code patterns to avoid and preferred idioms
 
 ### 3 - Normalize package and filename examples in `docs/approach.md`
-Status: Missing
+Status: Ignored
 Reference: docs/approach.md#structure
 Description: Replace leading-dot package examples and mixed wildcard/file patterns with full package names (e.g., `com.aiskov.time.tracker.config`) and concrete filename patterns (`*Resource.kt`). Include 1-2 example paths.
 Options:
@@ -64,7 +64,7 @@ Options:
 - State performance/consistency considerations
 
 ### 5 - Clarify optimistic-locking protocol in `docs/approach.md`
-Status: Missing
+Status: Done
 Reference: docs/approach.md#optimistic-locking
 Description: Define the version field type (Long/Int), failure behavior (exception mapping to HTTP status code), retry semantics, and reference the exception class/package to use (ConcurrentChangeException or an alternative).
 Options:
@@ -72,7 +72,7 @@ Options:
 - Use ETag/If-Match headers for REST endpoints
 
 ### 6 - Reword opening sentence in `docs/requirements.md`
-Status: Missing
+Status: Done
 Reference: docs/requirements.md#functional-requirements
 Description: Replace "Application should provide next concepts:" with grammatically correct and clear wording: "Application should provide the following concepts:" and check nearby sentences for similar grammar issues.
 Options:

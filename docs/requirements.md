@@ -1,7 +1,7 @@
 # Requirements
 
 ## Functional Requirements
-Application should provide next concepts:
+Application should provide the following concepts:
 
 - Users management
   - Users may be standalone or belong to organizations
