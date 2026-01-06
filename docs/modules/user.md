@@ -55,3 +55,5 @@ Base entity of user management.
     - Sorting: email (DEFAULT), name
     - Search term on: email, name
     - Filtering: -
+    - Pagination: none
+
