@@ -32,16 +32,16 @@
   - Reusable fixture data for `User` and command payloads (used across tests).
 
 ## Test structure and patterns
-- Tests are annotated with `@QuarkusTest`, which boots the Quarkus test runtime and provides CDI injection into 
+- Tests are annotated with `@QuarkusTest`, which boots the Quarkus test runtime and provides CDI injection into
   test classes.
-- Each test class typically injects `DbCollectionProvider` and cleans state in a `@BeforeEach` by deleting documents 
+- Each test class typically injects `DbCollectionProvider` and cleans state in a `@BeforeEach` by deleting documents
   in the relevant collection:
   - Example: `dbProvider.collection(User::class).deleteMany(any())`
-- Tests exercise the application through HTTP endpoints using functions like `post(...)` from `RestAssuredHelper`, 
+- Tests exercise the application through HTTP endpoints using functions like `post(...)` from `RestAssuredHelper`,
   then assert both HTTP response and DB state.
 - To seed data tests use `dbProvider.ensureExists(...)` which inserts a document into the collection and returns
   the inserted entry.
-- Assertions on responses often use `commandResponse(id, version)` helper for the common command API response format 
+- Assertions on responses often use `commandResponse(id, version)` helper for the common command API response format
   as well as Hamcrest matchers for error responses.
 
 ## Best practices for writing tests in this repo

@@ -1,7 +1,7 @@
 # Approach
 
 ## Multithreading
-Application is designed to be thread-safe, allowing concurrent access to resources without data corruption 
+Application is designed to be thread-safe, allowing concurrent access to resources without data corruption
 or inconsistency.
 
 Application should use reactive approach and kotlin async/away where possible to improve performance and responsiveness.
