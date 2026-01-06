@@ -31,7 +31,7 @@ Options:
 ## Tasks
 
 ### 1 - Clarify concurrency model and fix typo in `docs/approach.md`
-Status: Missing
+Status: Done
 Reference: docs/approach.md#multithreading
 Description: Fix the "async/away" typo and explicitly state the concurrency model the project will use (Kotlin coroutines, reactive Mutiny/Project Reactor, or both). Provide a short example and guidance when to prefer each approach.
 Options:
@@ -272,7 +272,7 @@ Options:
 - Open issues/PRs for each Missing task
 
 ### 31 - Migrate from synchronous to asynchronous MongoDB driver
-Status: Missing
+Status: Done
 Reference: docs/approach.md#multithreading
 Description: Refactor database access code to use the asynchronous MongoDB driver to improve scalability 
 and responsiveness
