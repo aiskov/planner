@@ -8,6 +8,7 @@ import com.aiskov.utils.db.conditional
 import com.aiskov.utils.db.copyIdField
 import com.aiskov.utils.db.dataFor
 import com.aiskov.utils.db.matchById
+import com.aiskov.utils.db.matchNotDeleted
 import com.aiskov.utils.db.matchTermInFields
 import com.aiskov.utils.db.normalize
 import com.aiskov.utils.db.sortByField
@@ -40,6 +41,8 @@ class UserQueryRepository {
             val collection = db.collection(User::class)
             collection.aggregate(
                 pipeline = listOf(
+                    matchNotDeleted(),
+
                     *conditional(filter.ids.isNotEmpty()) {
                         matchById(filter.ids)
                     },

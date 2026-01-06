@@ -89,3 +89,9 @@ fun dataFor(type: KClass<*>): Bson {
         Projections.include(type.memberProperties.map { it.name })
     )
 }
+
+fun matchNotDeleted(): Bson {
+    return match(
+        Filters.eq("deleted", false)
+    )
+}
