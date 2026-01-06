@@ -29,24 +29,6 @@ Options:
 ```
 
 ## Tasks
-
-### 1 - Clarify concurrency model and fix typo in `docs/approach.md`
-Status: Done
-Reference: docs/approach.md#multithreading
-Description: Fix the "async/away" typo and explicitly state the concurrency model the project will use (Kotlin coroutines, reactive Mutiny/Project Reactor, or both). Provide a short example and guidance when to prefer each approach.
-Options:
-- Use Kotlin coroutines (suspend functions, structured concurrency, examples with channels/Flow)
-- Use Mutiny/reactive streams for non-blocking IO (give example with Quarkus)
-- Document interoperability rules when both models are used
-
-### 2 - Resolve 'Multithreading' vs 'Reactive' ambiguity in `docs/approach.md`
-Status: Done
-Reference: docs/approach.md#multithreading
-Description: State concrete thread-safety rules: immutability, confinement, synchronization primitives, and how they apply to coroutines and reactive streams. Clarify expectations for blocking calls in reactive paths.
-Options:
-- Provide a short policy doc and examples
-- Add code patterns to avoid and preferred idioms
-
 ### 3 - Normalize package and filename examples in `docs/approach.md`
 Status: Ignored
 Reference: docs/approach.md#structure
@@ -270,12 +252,3 @@ Description: Go through the codebase and close tasks that are already implemente
 Options:
 - Run a code-to-docs mapping pass and mark items Done/Partial
 - Open issues/PRs for each Missing task
-
-### 31 - Migrate from synchronous to asynchronous MongoDB driver
-Status: Done
-Reference: docs/approach.md#multithreading
-Description: Refactor database access code to use the asynchronous MongoDB driver to improve scalability 
-and responsiveness
-Options:
-- (SELECTED) Use the official MongoDB async driver with callbacks
-- Use a reactive wrapper like KMongo or similar
