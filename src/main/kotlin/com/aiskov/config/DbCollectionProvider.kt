@@ -3,6 +3,12 @@ package com.aiskov.config
 import com.aiskov.domain.user.User
 import com.aiskov.utils.handlers.Aggregate
 import com.mongodb.MongoClientSettings
+import com.mongodb.event.CommandFailedEvent
+import com.mongodb.event.CommandListener
+import com.mongodb.event.CommandStartedEvent
+import com.mongodb.event.CommandSucceededEvent
+import org.slf4j.LoggerFactory
+import java.util.concurrent.TimeUnit
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
@@ -17,6 +23,7 @@ import kotlin.reflect.KClass
 @ApplicationScoped
 class DbCollectionProvider {
     private lateinit var client: MongoClient
+    private val log = LoggerFactory.getLogger(javaClass)
 
     @Inject
     @ConfigProperty(name = "app.db.uri")
@@ -34,14 +41,41 @@ class DbCollectionProvider {
             MongoClientSettings.getDefaultCodecRegistry(),
         )
 
-        client = MongoClient.create(
-            MongoClientSettings.builder()
-                .applyConnectionString(
-                    com.mongodb.ConnectionString(uri)
-                )
-                .codecRegistry(registry)
-                .build()
-        )
+        log.info("Connecting to MongoDB at {}", uri)
+
+        val builder = MongoClientSettings.builder()
+            .applyConnectionString(com.mongodb.ConnectionString(uri))
+            .codecRegistry(registry)
+
+        builder.addCommandListener(object : CommandListener {
+            override fun commandStarted(event: CommandStartedEvent) {
+                try {
+                    log.debug("MongoDB command started: {} -> {}", event.commandName, event.command.toJson())
+                } catch (_: Throwable) {
+                    log.debug("MongoDB command started: {} (failed to render payload)", event.commandName)
+                }
+            }
+
+            override fun commandSucceeded(event: CommandSucceededEvent) {
+                val elapsedMs = try {
+                    event.getElapsedTime(TimeUnit.MILLISECONDS)
+                } catch (_: Throwable) {
+                    -1L
+                }
+                log.debug("MongoDB command succeeded: {} (elapsed ms={})", event.commandName, elapsedMs)
+            }
+
+            override fun commandFailed(event: CommandFailedEvent) {
+                val elapsedMs = try {
+                    event.getElapsedTime(TimeUnit.MILLISECONDS)
+                } catch (_: Throwable) {
+                    -1L
+                }
+                log.warn("MongoDB command failed: {} (elapsed ms={})", event.commandName, elapsedMs)
+            }
+        })
+
+        client = MongoClient.create(builder.build())
 
         collections = mapOf(
             User::class.simpleName!! to db.getCollection(User::class.simpleName!!, User::class.java)

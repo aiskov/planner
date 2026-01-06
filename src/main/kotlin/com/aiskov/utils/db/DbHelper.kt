@@ -75,13 +75,12 @@ fun copyField(from: KProperty<*>, to: KProperty<*>): Bson {
 }
 
 fun copyIdField(to: KProperty<*>): Bson {
-    return addFields(Field(to.name, "\$$ID"))
+    return addFields(Field(to.name, "$" + ID))
 }
 
 fun normalize(): Array<Bson> {
     return arrayOf(
         copyIdField(Aggregate<*>::id),
-        addFields(Field(UserListV1Response::email.name, ""))
     )
 }
 

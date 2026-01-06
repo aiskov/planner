@@ -37,6 +37,7 @@ data class UserListV1Response(
     val id: String,
     val email: String,
     val name: String,
+    val version: Int,
 )
 
 @Path("/")
@@ -54,13 +55,14 @@ class UserListV1Resource {
     @Produces(MediaType.APPLICATION_JSON)
     suspend fun listUsers(
         @QueryParam("search") search: String?,
-        @QueryParam("sort") sort: String?
+        @QueryParam("sort") sort: String?,
+        @QueryParam("desc") desc: Boolean?
     ): Response {
         return userService.findAllV1(
             UserListV1Request(
                 search = search,
                 sort = sort,
-                desc = false
+                desc = desc,
             )
         ).toResponse()
     }

@@ -11,8 +11,6 @@ import com.aiskov.utils.db.matchById
 import com.aiskov.utils.db.matchTermInFields
 import com.aiskov.utils.db.normalize
 import com.aiskov.utils.db.sortByField
-import com.mongodb.client.model.Aggregates.addFields
-import com.mongodb.client.model.Field
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.toList
