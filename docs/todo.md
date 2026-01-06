@@ -270,3 +270,12 @@ Description: Go through the codebase and close tasks that are already implemente
 Options:
 - Run a code-to-docs mapping pass and mark items Done/Partial
 - Open issues/PRs for each Missing task
+
+### 31 - Migrate from synchronous to asynchronous MongoDB driver
+Status: Missing
+Reference: docs/approach.md#multithreading
+Description: Refactor database access code to use the asynchronous MongoDB driver to improve scalability 
+and responsiveness
+Options:
+- (SELECTED) Use the official MongoDB async driver with callbacks
+- Use a reactive wrapper like KMongo or similar
