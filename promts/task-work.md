@@ -9,4 +9,4 @@ Could you shortly describe which option is better?
 Let's get task 1 from todo.md
 
 Please analyze once again files in docs/ and apply changes in implementation 
-required to complete task 1 from todo.md using option 1
+required to complete task using option 1
