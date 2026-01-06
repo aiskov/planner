@@ -12,14 +12,14 @@ class UserPolicies : Policies<User> {
     private lateinit var passwordHasher: PasswordHasher
 
     @Inject
-    private lateinit var userRepo: UserQueryRepository
+    private lateinit var repository: UserQueryRepository
 
     fun storeHashed(password: String): String {
         return passwordHasher.hash(password)
     }
 
     suspend fun ensureUniqueEmail(email: String): Result<Unit> {
-        return userRepo.existsById(email)
+        return repository.existsById(email)
             .then { exists ->
                 if (exists) {
                     Result.failure(NonUniqueValueException(User::class, User::id, email))
