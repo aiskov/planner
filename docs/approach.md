@@ -32,6 +32,32 @@ All elements are located in parent package com.aiskov.time.tracker.
 - Command repository should allow to save/update aggregate, get aggregate by id.
   - All update operations should check version for optimistic locking.
 - Query repository should return use mongodb aggregation framework to get all data required for the case.
+  - Methods should return query Result DTOs that contains only data required for the case.
+
+### Query Repository
+#### Find by filter methods
+Contract:
+```kotlin
+fun <T> findByFilter(type: KClass<T>, filter: AggregateFilters): List<T>
+```
+
+Usually we will have at least two Response DTOs:
+- `*ListQueryResponse` - describes fields of list response
+- `*DetailsQueryResponse` - describes fields of find by id response
+
+Potentially they could have different fields. So when we build MongoDB aggregation pipeline we should conditionally add
+stages to project required fields, sort, skip, limit, lookups etc.
+
+We should always have filter by ids in order to process with same method both list and details queries.
+
+#### Other methods
+Contract:
+```kotlin
+fun isExists(params...): Boolean
+fun count(params...): Int
+```
+
+That methods should be used mainly in policies to verify some conditions or by services to get counts for pagination.
 
 ## Optimistic Locking
 Aggregate contains version field of type Int. When aggregate is created, version is set to 1. All update operations
