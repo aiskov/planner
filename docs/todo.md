@@ -38,31 +38,15 @@ Options:
 - Add a small tree/example layout
 
 ### 4 - Complete Persistency section in `docs/approach.md`
-Status: Missing
+Status: Partial
 Reference: docs/approach.md#persistency
 Description: Finish the truncated sentence about query repository expectations. Clarify what query methods should return (DTOs/Views), when MongoDB aggregation framework is required, and give one example aggregation use-case.
 Options:
 - Add example aggregation for joined data
 - State performance/consistency considerations
 
-### 5 - Clarify optimistic-locking protocol in `docs/approach.md`
-Status: Done
-Reference: docs/approach.md#optimistic-locking
-Description: Define the version field type (Long/Int), failure behavior (exception mapping to HTTP status code), retry semantics, and reference the exception class/package to use (ConcurrentChangeException or an alternative).
-Options:
-- Use numeric version field with 409 Conflict on mismatch
-- Use ETag/If-Match headers for REST endpoints
-
-### 6 - Reword opening sentence in `docs/requirements.md`
-Status: Done
-Reference: docs/requirements.md#functional-requirements
-Description: Replace "Application should provide next concepts:" with grammatically correct and clear wording: "Application should provide the following concepts:" and check nearby sentences for similar grammar issues.
-Options:
-- Update wording only
-- Run a light copy edit pass over the document
-
 ### 7 - Clarify user context-selection behavior in `docs/requirements.md`
-Status: Missing
+Status: Postponed
 Reference: docs/requirements.md#users-management
 Description: Explain how users select context (Work/Personal), whether selection is persistent per user or per session, and how it affects visible projects/tasks. Replace the gendered pronoun with neutral language.
 Options:
@@ -70,23 +54,15 @@ Options:
 - Make selection session-scoped by default
 
 ### 8 - Define the permission model in `docs/requirements.md`
-Status: Missing
+Status: Postponed
 Reference: docs/requirements.md#users-management
 Description: Describe role hierarchy (Admin, Full-access, Read-only), how project-scoped permissions interact with organization roles, and conflict resolution rules (precedence, overrides).
 Options:
 - Org-level role overrides project roles
 - Project-level explicit grants override org default
 
-### 9 - Complete 'Projects could be assigned to' in `docs/requirements.md`
-Status: Missing
-Reference: docs/requirements.md#projects-management
-Description: Finish the incomplete bullet by specifying assignment targets (contexts, users, organizations) with one example use-case showing typical ownership and scoping.
-Options:
-- Assign projects to contexts and organizations
-- Allow explicit project owners (users)
-
 ### 10 - Finish Epic description in `docs/requirements.md`
-Status: Missing
+Status: Postponed
 Reference: docs/requirements.md#tasks-management
 Description: Complete the epic bullet (what an Epic contains—Stories/Tasks), and clarify how estimations propagate (epic points vs story points) and aggregation rules.
 Options:

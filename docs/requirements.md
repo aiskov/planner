@@ -15,7 +15,7 @@ Application should provide the following concepts:
   - Each context could contain projects, tasks, notes, and time records
 - Projects management
   - Projects could contain tasks, checklists, notes, and time records
-  - Projects could be assigned to 
+  - Projects could be assigned to organizations or users.
 - Tasks management
   - Tasks should have types
     - Simple - Basic type of task
@@ -27,8 +27,10 @@ Application should provide the following concepts:
       - Estimated in hours
     - Story - Task representing a user story
       - Estimated in story points
-    - Epic - Large task that could contain 
+      - May contains multiple Simple tasks and Bugs
+    - Epic - Task representing set of stories grouped together
       - Estimated in epic points
+      - May contains multiple Stories
     - Routine - Task that used only for time tracking without completion
     - Placeholder - Task that used only to track some time window, and doesn't count as work done
   - Tasks should have deadlines
@@ -49,6 +51,11 @@ Application should provide the following concepts:
   - Attachments could be added to tasks, notes, and projects
 - Comments
   - Comments could be added to tasks
+- Time spend predictions
+  - Using historical data for project, user and context predict time required to complete task using epic and story points
+  - Provide burndown chart for projects based on tasks and their story/epic points
+  - Provide velocity chart for users and organizations based on completed tasks and their story/epic points
+  - Provide delivery prediction diagram (similar to jira version report)
 
 ## Non-Functional Requirements
 
