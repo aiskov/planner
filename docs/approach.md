@@ -31,7 +31,8 @@ All elements are located in parent package com.aiskov.time.tracker.
 - Each aggregate should be saved as separate document in the database.
 - Use optimistic locking for concurrent updates.
 - Command repository should allow to save/update aggregate, get aggregate by id.
-- Query repository should return use mongodb aggregation framework to get all data required for the 
+  - All update operations should check version for optimistic locking.
+- Query repository should return use mongodb aggregation framework to get all data required for the case.
 
 ## Optimistic Locking
 Each aggregate should have version field that is incremented on each update. When updating aggregate.
