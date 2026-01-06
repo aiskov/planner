@@ -15,3 +15,9 @@ required to complete task using option 1
 Let's get task 1 from todo.md
 
 Please find all kotlin files that refer to the task and verify that implementation is correct and complete.
+
+## Check that task is still relevant
+Let's get task 1 from todo.md
+
+Please analyze docs/ files and related implementation to verify that task is still relevant. If not, 
+please remove it from todo.md
