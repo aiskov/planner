@@ -23,7 +23,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema
 import org.eclipse.microprofile.openapi.annotations.tags.Tag
 import org.hibernate.validator.constraints.Length
 
-data class CreateUserCommand(
+data class CreateUserV1Command(
     val email: String,
     val name: String,
     val password: String,
@@ -91,9 +91,9 @@ data class CreateUserV1Request(
     )
     @field:Secret
     val password: String?,
-) : CommandRequest<CreateUserCommand> {
-    override fun toCommand(): CreateUserCommand {
-        return CreateUserCommand(
+) : CommandRequest<CreateUserV1Command> {
+    override fun toCommand(): CreateUserV1Command {
+        return CreateUserV1Command(
             email = email!!,
             name = name!!,
             password = password!!,
@@ -101,7 +101,7 @@ data class CreateUserV1Request(
     }
 
     override fun toString(): String {
-        return toCommandString(CreateUserCommand::class)
+        return toCommandString(CreateUserV1Command::class)
     }
 }
 

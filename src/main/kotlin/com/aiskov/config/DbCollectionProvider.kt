@@ -2,6 +2,7 @@ package com.aiskov.config
 
 import com.aiskov.domain.user.User
 import com.aiskov.utils.handlers.Aggregate
+import com.mongodb.MongoClientSettings
 import com.mongodb.kotlin.client.MongoClient
 import com.mongodb.kotlin.client.MongoCollection
 import com.mongodb.kotlin.client.MongoDatabase
@@ -9,8 +10,9 @@ import jakarta.annotation.PostConstruct
 import jakarta.annotation.PreDestroy
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
-import kotlin.reflect.KClass
+import org.bson.codecs.configuration.CodecRegistries.fromRegistries
 import org.eclipse.microprofile.config.inject.ConfigProperty
+import kotlin.reflect.KClass
 
 @ApplicationScoped
 class DbCollectionProvider {
@@ -28,10 +30,21 @@ class DbCollectionProvider {
 
     @PostConstruct
     fun init() {
-        client = MongoClient.create(uri)
+        val registry = fromRegistries(
+            MongoClientSettings.getDefaultCodecRegistry(),
+        )
+
+        client = MongoClient.create(
+            MongoClientSettings.builder()
+                .applyConnectionString(
+                    com.mongodb.ConnectionString(uri)
+                )
+                .codecRegistry(registry)
+                .build()
+        )
 
         collections = mapOf(
-            User::class.simpleName!! to db.getCollection<User>(User::class.simpleName!!)
+            User::class.simpleName!! to db.getCollection(User::class.simpleName!!, User::class.java)
         )
     }
 

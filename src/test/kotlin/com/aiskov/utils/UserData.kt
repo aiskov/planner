@@ -1,5 +1,8 @@
 package com.aiskov.utils
 
+import com.aiskov.domain.user.User
+import com.aiskov.domain.user.command.CreateUserV1Command
+import com.aiskov.domain.user.command.CreateUserV1Request
 import java.security.SecureRandom
 import java.util.UUID
 
@@ -26,9 +29,17 @@ object UserData {
         return chars.joinToString("")
     }
 
-    fun createUserPayload(): Map<String, Any> = mapOf(
-        "email" to email(),
-        "name" to name(),
-        "password" to password()
-    )
+    val aggregate: User
+        get() = User(
+            id = email(),
+            name = name(),
+            password = password()
+        )
+
+    val createUser: CreateUserV1Request
+        get() = CreateUserV1Request(
+            email = email(),
+            name = name(),
+            password = password()
+        )
 }

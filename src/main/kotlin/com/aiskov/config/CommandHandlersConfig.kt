@@ -3,7 +3,7 @@ package com.aiskov.config
 import com.aiskov.domain.common.Policies
 import com.aiskov.domain.user.User
 import com.aiskov.domain.user.UserPolicies
-import com.aiskov.domain.user.command.CreateUserCommand
+import com.aiskov.domain.user.command.CreateUserV1Command
 import com.aiskov.utils.handlers.Aggregate
 import com.aiskov.utils.handlers.Command
 import com.aiskov.utils.handlers.CommandHandler
@@ -18,9 +18,9 @@ class CommandHandlersConfig {
 
     private val handlers: Map<String, CommandHandler<*, *, *>> = listOf<CommandHandler<*, *, *>>(
         CommandHandler.CreateCommandHandler(
-            commandType = CreateUserCommand::class,
+            commandType = CreateUserV1Command::class,
             aggregateType = User::class,
-            operation = { cmd: CreateUserCommand, policies: UserPolicies ->
+            operation = { cmd: CreateUserV1Command, policies: UserPolicies ->
                 User.create(cmd, policies)
             }
         )

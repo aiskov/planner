@@ -1,4 +1,4 @@
-package com.aiskov.utils
+package com.aiskov.utils.db
 
 import com.mongodb.kotlin.client.MongoCollection
 import org.bson.Document
