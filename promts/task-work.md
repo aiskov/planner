@@ -10,3 +10,8 @@ Let's get task 1 from todo.md
 
 Please analyze once again files in docs/ and apply changes in implementation 
 required to complete task using option 1
+
+## Verify implementation
+Let's get task 1 from todo.md
+
+Please find all kotlin files that refer to the task and verify that implementation is correct and complete.
