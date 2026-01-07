@@ -1,6 +1,6 @@
 package com.aiskov.domain.common
 
-interface QueryRequest<T : Any> {
+interface QueryListRequest<T : Any> {
     val search: String?
     val sort: String?
     val desc: Boolean?

@@ -1,6 +1,6 @@
 package com.aiskov.domain.user.query
 
-import com.aiskov.domain.common.QueryRequest
+import com.aiskov.domain.common.QueryListRequest
 import com.aiskov.domain.user.UserService
 import com.aiskov.utils.toResponse
 import jakarta.enterprise.context.ApplicationScoped
@@ -17,7 +17,7 @@ data class UserListV1Request(
     override val search: String?,
     override val sort: String?,
     override val desc: Boolean?
-) : QueryRequest<UserListV1Query> {
+) : QueryListRequest<UserListV1Query> {
     override fun toQuery(): UserListV1Query {
         return UserListV1Query(
             search = this.search,

@@ -19,9 +19,9 @@ import kotlin.reflect.KClass
 
 data class UserFilter(
     val ids: List<String> = emptyList(),
-    val search: String?,
-    val sort: String,
-    val desc: Boolean,
+    val search: String? = null,
+    val sort: String = UserListV1Response::email.name,
+    val desc: Boolean = false,
 )
 
 @ApplicationScoped
